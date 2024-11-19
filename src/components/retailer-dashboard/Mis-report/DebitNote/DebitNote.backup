@@ -1,0 +1,322 @@
+
+// import React from "react";
+// import { Default } from "react-toastify/dist/utils";
+
+
+// const DebitNote =()=>{
+//     return(
+//         <>
+//         </>
+//     )
+// }
+
+
+// export default DebitNote;
+// import React from 'react'
+// import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { handleDebitNoteMisListRequest } from '../../../../redux/actions-reducers/ComponentProps/ComponentPropsManagement'
+import { Button, Card, CardBody, Col, Input, Label, Row } from "reactstrap";
+
+//Added later
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import DataTable from "react-data-table-component";
+
+
+// const DebitNote = () => {
+//     console.log("hello")
+//     const dispatch= useDispatch()
+//     const { item_DebitNote_list, user_data } = useSelector(
+//             (e) => e.ComponentPropsManagement
+//           );
+  
+//     useEffect(()=>{
+//         dispatch(handleDebitNoteMisListRequest())
+//         // setTimeout(() => {
+          
+//         //      }, 500);
+//     },[])
+    
+//     console.log("DEBIT NOTE", item_DebitNote_list );
+    
+//   return (
+//     <>
+//      <p>sdshfysgfids</p>
+
+      
+//     </>
+//   )
+// }
+
+// const Ledger = () => {
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   const { item_master_list, user_data } = useSelector(
+//     (e) => e.ComponentPropsManagement
+//   );
+//   const {
+//     createdAt,
+//     password,
+//     registerId,
+//     status,
+//     saasId,
+//     storeId,
+//     storeName,
+//     userId,
+//     userName,
+//   }} = localStorage.getItem("User_data")
+// ? JSON.parse(localStorage.getItem("User_data"))
+// : {};
+// const [loading, setLoading] = useState(false);
+// const [currentPage, setCurrentPage] = useState(1);
+// const [flag, setFlag] = useState(false);
+// const [searchVal, setSearchVal] = useState("");
+
+// useEffect(() => {
+// setLoading(true);
+// dispatch(handleItemMasterListRequest({ currentPage }));
+// setTimeout(() => {
+//   setLoading(false);
+// }, 500);
+// }, [currentPage, flag]);
+
+// const handlePageChange = (page) => {
+// setCurrentPage(page);
+// };
+//======================================================================
+const DebitNote = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { item_DebitNote_list, user_data } = useSelector(
+    (e) => e.ComponentPropsManagement
+  );
+  // const {
+  //   createdAt,
+  //   password,
+  //   registerId,
+  //   status,
+  //   saasId,
+  //   storeId,
+  //   storeName,
+  //   userId,
+  //   userName,
+  // } = localStorage.getItem("User_data")
+  //   ? JSON.parse(localStorage.getItem("User_data"))
+  //   : {};
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [flag, setFlag] = useState(false);
+  const [searchVal, setSearchVal] = useState("");
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   dispatch(handleDebitNoteMisListRequest({ currentPage }));
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 500);
+  // }, [currentPage, flag]);
+
+  useEffect(()=>{
+    dispatch(handleDebitNoteMisListRequest());
+  })
+
+
+  // const handlePageChange = (page) => {
+  //   setCurrentPage(page);
+  // };
+  console.log("DEBIT NOTE", item_DebitNote_list );
+  const columns = [
+    {
+      name: "Customer Party",
+      center: true,
+      selector: (row) => row.customer_party,
+      cell: (row) => {
+        return (
+          <>
+            <div style={{ fontWeight: "bolder" }}>{row.customer_party}</div>
+          </>
+        );
+      },
+    },
+    {
+      name: "Charges",
+      center: true,
+      selector: (row) => row.charges,
+    },
+    {
+      name: "ID",
+      center: true,
+      selector: (row) => row.id,
+    },
+    // {
+    //     name: 'Discount',
+    //     center: true,
+    //     selector: row => row.discount,
+    // },
+    {
+      name: "Amount",
+      center: true,
+      selector: (row) => row.amount,
+    },
+    {
+      name: "Saas ID",
+      center: true,
+      selector: (row) => row.saas_id,
+    },
+    {
+      name: "Business Date",
+      center: true,
+      selector: (row) => row.business_date,
+    },
+    {
+        name: "Store ID",
+        center: true,
+        selector: row => row.store_id,
+    },
+    // {
+    //     name: 'Tax Percent',
+    //     center: true,
+    //     selector: row => row.tax_percent,
+    // },
+    // {
+    //     name: 'Tax Rate',
+    //     center: true,
+    //     selector: row => row.tax_rate,
+    // },
+    // {
+    //   name: "Action",
+    //   center: true,
+    //   selector: (row) => {
+    //     const [addUpdateItemModalIsOpen, setAddUpdateItemModalIsOpen] =
+    //       useState(false);
+    //     const handleDelete = async () => {
+    //       try {
+    //         const response = await fetch(
+    //           `${host}item/inactive-item/${row.item_id}/${saasId}`,
+    //           {
+    //             method: "PUT",
+    //           }
+    //         );
+    //         const jsonData = await response.json();
+    //         if (jsonData) {
+    //           if (jsonData.status === true) {
+    //             toast.success(jsonData.message);
+    //             setFlag(!flag);
+    //             return;
+    //           }
+    //           toast.error(jsonData.message);
+    //           setFlag(!flag);
+    //         } else {
+    //           toast.error("Something went wrong server side");
+    //         }
+    //       } catch (err) {
+    //         toast.error(err.message);
+    //       }
+    //     };
+
+    //     console.log("ITEM", item_master_list);
+
+    //     return (
+    //       <>
+    //         <div className="d-flex">
+    //           <div className="me-2">
+    //             <MdPlaylistAdd
+    //               size={22}
+    //               color="green"
+    //               className="mouse-pointer"
+    //               onClick={() => navigate("/add-item")}
+    //             />
+    //           </div>
+
+    //           <div className="me-2">
+    //             <MdDelete
+    //               size={22}
+    //               color="red"
+    //               className="mouse-pointer"
+    //               onClick={() => handleDelete()}
+    //             />
+    //           </div>
+
+    //           <div>
+    //             <MdEdit
+    //               size={22}
+    //               color="var(--primary1)"
+    //               className="mouse-pointer"
+    //               onClick={() => {
+    //                 setAddUpdateItemModalIsOpen(!addUpdateItemModalIsOpen);
+    //               }}
+    //             />
+    //           </div>
+    //         </div>
+
+    //         {/* <AddItem
+    //           addUpdateItemModalIsOpen={addUpdateItemModalIsOpen}
+    //           setAddUpdateItemModalIsOpen={setAddUpdateItemModalIsOpen}
+    //           row={row}
+    //           setFlag={setFlag}
+    //           flag={flag}
+    //         /> */}
+    //       </>
+    //     );
+    //   },
+    // },
+  ];
+
+  // const handleSearch = () => {
+  //   if (searchVal) {
+  //     dispatch(handleSearchedDataRequest1({ searchValue: searchVal }));
+  //   } else {
+  //     setFlag(!flag);
+  //   }
+  // };
+  const data = []
+  return (
+    <>
+      <Card className="my-3">
+        <CardBody>
+          <Row>
+            <Col md={5}>
+              <Input
+                type="text"
+                onChange={(e) => {
+                  setSearchVal(e.target.value);
+                }}
+                value={searchVal}
+                placeholder="Search..."
+              />
+            </Col>
+            <Col md={3}>
+              <Button
+                style={{ backgroundColor: "var(--primary1)" }}
+                onClick={() => {
+                  handleSearch();
+                }}
+              >
+                Search
+              </Button>
+            </Col>
+          </Row>
+        </CardBody>
+      </Card>
+
+      <DataTable
+        columns={columns}
+        responsive={true}
+        // fixedHeader={true}
+        // fixedHeaderScrollHeight="300px"
+
+        data={item_DebitNote_list ? item_DebitNote_list?.list : []}
+        progressPending={loading}
+        pagination
+        paginationServer
+        paginationTotalRows={item_DebitNote_list ? item_DebitNote_list.totalCount : 1}
+        // onChangeRowsPerPage={10}
+        // onChangePage={handlePageChange}
+      />
+    </>
+  );
+};
+//============================================================================
+
+export default DebitNote

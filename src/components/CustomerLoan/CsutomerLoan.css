@@ -1,0 +1,308 @@
+
+  
+ 
+  
+  
+  
+ 
+  
+  /* a {
+    text-decoration: none;
+  }
+   */
+   .FRAME_855_49 {
+    width: 100%;
+    min-height: 110vh;
+    background-color: rgba(
+      253.0000001192093,
+      238.00000101327896,
+      204.00000303983688,
+      1
+    );
+    border: none;
+    position: relative;
+  }
+  
+ 
+  .TEXT_855_78 {
+    transform: translate(24px, 10px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    color: rgba(30.00000011175871, 30.00000011175871, 30.00000011175871, 1);
+    font-family: Segoe UI;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: left;
+    vertical-align: top;
+    letter-spacing: 0px;
+    line-height: 26.6015625px;
+  }
+  
+  .GROUP_855_79 {
+    transform: translate(24px, 57px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    width: 312px;
+    min-height: 16px;
+    background-color: transparent;
+    border: none;
+  }
+  
+  .TEXT_855_86 {
+    transform: translate(219px, 0px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgba(0, 0, 0, 1);
+    font-family: Segoe UI;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: left;
+    vertical-align: top;
+    letter-spacing: 0px;
+    line-height: 15.9609375px;
+  }
+  .TEXT_855_85 {
+    transform: translate(115px, 0px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgba(0, 0, 0, 1);
+    font-family: Segoe UI;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: left;
+    vertical-align: top;
+    letter-spacing: 0px;
+    line-height: 15.9609375px;
+  }
+  .TEXT_855_84 {
+    transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgba(0, 78.0076177418232, 192.3290964961052, 1);
+    font-family: Segoe UI;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: left;
+    vertical-align: top;
+    letter-spacing: 0px;
+    line-height: 15.9609375px;
+  }
+  .FRAME_855_82 {
+    transform: translate(200px, 2px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    min-height: 12px;
+    background-color: rgba(255, 255, 255, 1);
+    border: none;
+  }
+  .VECTOR_855_83 {
+    transform: translate(0.4000000059604645px, 1.6001708507537842px) rotate(0deg)
+      scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .FRAME_855_80 {
+    transform: translate(96px, 2px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    min-height: 12px;
+    background-color: rgba(255, 255, 255, 1);
+    border: none;
+  }
+  .VECTOR_855_81 {
+    transform: translate(0.4000000059604645px, 1.6001708507537842px) rotate(0deg)
+      scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .GROUP_855_87 {
+    transform: translate(26px, 103px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    width: 307px;
+    min-height: 368px;
+    background-color: transparent;
+    border: none;
+    border-radius: 0px 0px 0px 0px;
+  }
+  
+  .GROUP_855_93 {
+    transform: translate(26.999622344970703px, 311.251708984375px) rotate(0deg)
+      scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 252.00006103515625px;
+    min-height: 38.68692398071289px;
+    background-color: transparent;
+    border: none;
+  }
+  .RECTANGLE_855_96 {
+    transform: translate(182.00006103515625px, 0px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .RECTANGLE_855_95 {
+    transform: translate(91px, 12.0390625px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .RECTANGLE_855_94 {
+    transform: translate(0px, 6.876953125px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .RECTANGLE_855_92 {
+    transform: translate(49.7835693359375px, 226.9896697998047px) rotate(0deg)
+      scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .TEXT_855_91 {
+    /* transform: translate(48.00018310546875px, 237.30780029296875px) rotate(0deg)
+      scale(1, 1); */
+    transform-origin: 1px 1px;
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    color: rgba(0, 0, 0, 0.800000011920929);
+    font-family: Segoe UI;
+    font-weight: 700;
+    font-size: 12px;
+    text-align: left;
+    vertical-align: top;
+    letter-spacing: 0px;
+    line-height: 15.9609375px;
+  }
+  .TEXT_855_90 {
+    /* transform: translate(111.9996337890625px, 206.35643005371094px) rotate(0deg)
+      scale(1, 1); */
+    transform-origin: 1px 1px;
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    color: rgba(0, 0, 0, 0.800000011920929);
+    font-family: Segoe UI;
+    font-weight: 400;
+    font-size: 10px;
+    text-align: left;
+    vertical-align: top;
+    letter-spacing: 0px;
+    line-height: 13.30078125px;
+  }
+  .RECTANGLE_855_89 {
+    transform: translate(49.7835693359375px, 41.27248764038086px) rotate(0deg)
+      scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 8px;
+  }
+  .RECTANGLE_855_88 {
+    transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    filter: drop-shadow(0px 2px 1px rgba(0, 0, 0, 0.325));
+    border-radius: 8px;
+  }
+  .GROUP_855_97 {
+    transform: translate(66px, 543px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 227px;
+    min-height: 48px;
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .TEXT_855_99 {
+    transform: translate(88px, 0px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgba(255, 255, 255, 1);
+    font-family: Segoe UI;
+    font-weight: 600;
+    font-size: 32px;
+    text-align: left;
+    vertical-align: top;
+    letter-spacing: 0px;
+    line-height: 42.5625px;
+  }
+  .RECTANGLE_855_98 {
+    transform: translate(0px, 0px) rotate(0deg) scale(1, 1);
+    transform-origin: 1px 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px;
+  }
+  
+
+ 
+  
+  .payFileClass {
+    position: relative;
+    /* background-color: #3498db;
+    color: #fff; */
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    display: flex; /* Use flexbox to center content */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+  }
+  
+  /* Media query for mobile devices */
+  @media (max-width: 767px) {
+    .payFileClass {
+      font-size: 14px;
+      padding: 10px;
+    }
+  }
+  
+  /* Media query for desktop devices */
+  @media (min-width: 768px) {
+    .payFileClass {
+      font-size: 18px;
+      padding: 20px;
+    }
+  }

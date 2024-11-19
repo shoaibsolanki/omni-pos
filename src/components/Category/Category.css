@@ -1,0 +1,41 @@
+
+img { 
+    display: block; 
+    vertical-align: middle;
+} 
+
+img { 
+    max-width: 100%; 
+    height: auto;
+} 
+
+.object-contain { 
+    -o-object-fit: contain; 
+    object-fit: contain;
+} 
+
+*,:after,:before { 
+    box-sizing: border-box; 
+    border: 0 solid #e5e7eb;
+} 
+
+*,:after,:before { 
+    --tw-ring-offset-shadow: 0 0 #0000; 
+    --tw-ring-shadow: 0 0 #0000; 
+    --tw-shadow: 0 0 #0000; 
+} 
+
+:backdrop { 
+    --tw-ring-offset-shadow: 0 0 #0000; 
+    --tw-ring-shadow: 0 0 #0000; 
+    --tw-shadow: 0 0 #0000; 
+} 
+
+
+.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
+    margin-bottom: 30px;
+    
+}
+.swiper-button-prev:after, .swiper-rtl .swiper-button-next:after{
+    margin-bottom: 30px;
+}

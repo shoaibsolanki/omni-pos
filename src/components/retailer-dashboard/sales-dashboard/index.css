@@ -1,0 +1,11 @@
+.card-container-style {
+    /* background-color: var(--primary1) !important; */
+    background-color: #ffffff;
+    color: black;
+    margin-bottom: 20px;
+    /* width: 100% !important; */
+    /* color: white !important; */
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 15px 20px;
+}

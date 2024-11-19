@@ -1,0 +1,22 @@
+@media only screen and (min-width: 990px) {
+    .sale-purchase-container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+}
+
+@media only screen and (min-width:1400px) {
+    .lkksi3 {
+        display: flex;
+        justify-content: flex-start;
+    }
+}
+
+@media only screen and (max-width:1400px) {
+    .lkksi3 {
+        display: flex;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}
