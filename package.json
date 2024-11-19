@@ -66,9 +66,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-  "extends": "react-app"
-},
   "devDependencies": {
     "react-scripts": "5.0.1"
   },

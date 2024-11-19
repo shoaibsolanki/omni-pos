@@ -30,7 +30,7 @@ const Scanandbill = () => {
     const [items, setItems] = useState([])
     const [barcode, setBarcode] = useState('')
     const [currentTime, setCurrentTime] = useState(new Date())
-    const {storeId,saasId} = localStorage.getItem('Store_data') || {}
+    const { storeId,saasId } = JSON.parse(localStorage.getItem("User_data")) || {}
     useEffect(() => {
       const timer = setInterval(() => setCurrentTime(new Date()), 1000)
       return () => clearInterval(timer)
@@ -55,9 +55,9 @@ const Scanandbill = () => {
     const total = subtotal + tax
 
     //api hit on scan item 
-    const handleScanItem =async (itemId) => {
+    const handleScanItem =async () => {
       try {
-        const response = await DataService.Scanitembyid(storeId,saasId, itemId)
+        const response = await DataService.Scanitembyid(storeId,saasId, barcode)
         console.log("Scanned item: ", response.data.data)
       } catch (error) {
         console.log("Error scanning item: ", error)
@@ -70,7 +70,7 @@ const Scanandbill = () => {
          <Container maxWidth="lg">
      
       <StyledPaper elevation={3}>
-        <form onSubmit={handleScan} style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
+        <form onSubmit={handleScanItem} style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
           <TextField
             fullWidth
             variant="outlined"
