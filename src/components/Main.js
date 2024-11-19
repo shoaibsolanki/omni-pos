@@ -64,12 +64,16 @@ const Main = () => {
   const [viewOrderModalIsOpen, setViewOrderModalIsOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const navigate = useNavigate();
-
-  useEffect(() => { });
+ 
   let { storeName, userType, saasId, storeId } = localStorage.getItem(
     "User_data"
   )
     ? JSON.parse(localStorage.getItem("User_data"))
+    : {};
+  let { scan_bill } = localStorage.getItem(
+    "Store_data"
+  )
+    ? JSON.parse(localStorage.getItem("Store_data"))
     : {};
   console.log(userType);
   const checkCustomer = (userType === "CUSTOMER" || userType === "GUEST");
@@ -388,11 +392,17 @@ const Main = () => {
   console.log(item)
     if (checkCustomer) {
       if (item.value === "retail_billing") {
-        navigate("/home");
+        
+          navigate("/home");
+  
       }
     } else if (!checkCustomer) {
       if (item.value === "retail_billing") {
+        if(scan_bill){
+          navigate("/scanscreen")
+        }else{
         navigate("/home");
+        }
       } else if (item.value === "purchase") {
         navigate("/add-purchase");
       } else if (item.value === "return_credit_note") {

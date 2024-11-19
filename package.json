@@ -69,6 +69,7 @@
   "devDependencies": {
     "react-scripts": "5.0.1"
   },
+  
   "browserslist": {
     "production": [
       ">0.2%",
@@ -80,5 +81,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "eslintConfig": {
+  "extends": [
+    "react-app",
+    "react-app/jest"
+  ],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "no-undef": "error"
   }
+}
 }
