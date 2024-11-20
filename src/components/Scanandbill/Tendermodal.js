@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IoCashOutline } from 'react-icons/io5'
 import { SiPaytm, SiPhonepe, SiContactlesspayment } from 'react-icons/si'
 import { FaGooglePay } from 'react-icons/fa'
@@ -18,12 +18,28 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Alert } from '@mui/material'
 import DataService from '../../services/requestApi'
+import ReceiptModal from './ReceiptModal'
+import { useReactToPrint } from "react-to-print";
  const Tendermodal=({total,Cartitems})=> {
     const userData = JSON.parse(localStorage.getItem("User_data"));
+    const [showRecepit, setShowRecepit] = useState(false)
      const [selectedTenders, setSelectedTenders] = useState({})
      const [totalAmount, setTotalAmount] = useState(0)
      const Diubalance = total - totalAmount
      const [open, setOpen] = useState(false)
+     const componentRef = useRef();
+     const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        onBeforePrint: () => {
+          // Add any logic you need before printing
+          console.log("printing Start");
+        },
+        onAfterPrint: () => {
+          // Add any logic you need after printing
+         
+        },
+      });
+     const [invoiceno, setInvoiceno] = useState("")
      const [showalert, setShowAlert] = useState({
         show: false,
         message: "",
@@ -169,13 +185,28 @@ import DataService from '../../services/requestApi'
           }
 
         const response = await DataService.HandelSaveTransaction(ReqData);
+        if(response.data.status){
+            setInvoiceno(response.data?.data?.transaction_id)
+            setShowRecepit(true)
+        }
         console.log("Generate Sale Invoice", response.data);
+
        
     } catch (error) {
         console.log("Error: ", error)
     }
   }
 
+  const header = {
+    container: {
+      fontFamily: "Courier New, monospace",
+      fontSize: "small",
+    },
+    text: {
+      fontFamily: "Courier New, monospace",
+      fontSize: "small",
+    },
+  };
 
 
   return (
@@ -189,10 +220,10 @@ import DataService from '../../services/requestApi'
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         maxWidth="md"
-        fullWidth
+        // fullWidth ={showRecepit}
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Choose Payment Methods"}
+        {!showRecepit &&<><DialogTitle id="alert-dialog-title">
+          { "Choose Payment Methods"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -248,8 +279,21 @@ import DataService from '../../services/requestApi'
           <Typography variant="h6">
            Invoice  Total: ₹{total?.toFixed(2)}
           </Typography>
-        </DialogActions>
+        </DialogActions></>}
+        {showRecepit &&<>
+        <DialogContent>
+        <div
+              className="container"
+              style={header.container}
+              ref={componentRef}
+            >
+        <ReceiptModal products={Cartitems}  invoiceNo={invoiceno} optionTick={optionArray} selected={selectedTenders}  />
+            </div>
+        </DialogContent>
+        </>}
       </Dialog>
+
+
     </div>
   )
 }
