@@ -20,12 +20,13 @@ import FlipIcon from '@mui/icons-material/Flip';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import Tendermodal from './Tendermodal';
+import { useNavigate } from 'react-router-dom';
   const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(3),
     marginTop: theme.spacing(3),
   }))
 const Scanandbill = () => {
-
+  const navigate = useNavigate()
   const Cartitems = JSON.parse(localStorage.getItem('my-cart')) || []
     const [items, setItems] = useState(Cartitems)
     const [barcode, setBarcode] = useState('')
@@ -190,10 +191,10 @@ const Scanandbill = () => {
             Total: ₹{total.toFixed(2)}
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-            <Button variant="outlined">
+            <Button variant="outlined" onClick={()=>navigate('/')}>
               {'\u2715'} Cancel
             </Button>
-            <Tendermodal total={total} Cartitems = {items}/>
+           {items.length >0 && <Tendermodal total={total} Cartitems ={items} setItems={setItems}/>}
             {/* <Button variant="contained" color="primary">
              Complete Sale
             </Button> */}

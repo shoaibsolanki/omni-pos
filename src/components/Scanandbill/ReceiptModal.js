@@ -1,8 +1,9 @@
+import { Box, Button } from "@mui/material";
 import moment from "moment";
 import React, { useEffect } from "react";
-import { PrintProvider, Print } from "react-easy-print";
+import { PrintProvider, Print, NoPrint } from "react-easy-print";
 
-function ReceiptModal({totalDiscount,customer,products,optionTick, payment_mode,invoiceNo ,selected}) {
+function ReceiptModal({totalDiscount,customer,products,optionTick, payment_mode,invoiceNo ,selected,handlecloseReceipt}) {
   // Static data to replace Redux store data
 
   const enrichedArray = optionTick.filter(option => selected.hasOwnProperty(option.value))
@@ -441,9 +442,30 @@ function ReceiptModal({totalDiscount,customer,products,optionTick, payment_mode,
 
   return (
     <PrintProvider>
-      <Print>
+      <Print >
         <div style={styles}>{receiptContent}</div>
       </Print>
+      <NoPrint>
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'around', justifyContent:"space-around" }}>
+
+      <Button
+        onClick={() => {
+            window.print() // Triggers the print dialog
+        }}
+        variant="contained"
+        color="primary"
+      >
+        Print Receipt
+      </Button>
+      <Button
+        onClick={() => {handlecloseReceipt()}}
+        variant="contained"
+        color="primary"
+      >
+        Close
+      </Button>
+        </Box>
+      </NoPrint>
     </PrintProvider>
   );
 }

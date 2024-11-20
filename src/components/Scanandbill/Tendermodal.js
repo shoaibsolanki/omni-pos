@@ -20,25 +20,13 @@ import { Alert } from '@mui/material'
 import DataService from '../../services/requestApi'
 import ReceiptModal from './ReceiptModal'
 import { useReactToPrint } from "react-to-print";
- const Tendermodal=({total,Cartitems})=> {
+ const Tendermodal=({total,Cartitems,setItems})=> {
     const userData = JSON.parse(localStorage.getItem("User_data"));
     const [showRecepit, setShowRecepit] = useState(false)
      const [selectedTenders, setSelectedTenders] = useState({})
      const [totalAmount, setTotalAmount] = useState(0)
      const Diubalance = total - totalAmount
      const [open, setOpen] = useState(false)
-     const componentRef = useRef();
-     const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-        onBeforePrint: () => {
-          // Add any logic you need before printing
-          console.log("printing Start");
-        },
-        onAfterPrint: () => {
-          // Add any logic you need after printing
-         
-        },
-      });
      const [invoiceno, setInvoiceno] = useState("")
      const [showalert, setShowAlert] = useState({
         show: false,
@@ -53,6 +41,16 @@ import { useReactToPrint } from "react-to-print";
   const handleClose = () => {
     setOpen(false)
   }
+
+  const handlecloseReceipt = () => {
+    //clrear cart and reset total and clear selectedTenders
+    setShowRecepit(false)
+    setSelectedTenders({})
+    setTotalAmount(0)
+    //clear cart from local storage
+    localStorage.removeItem("my-cart")
+    setItems([])
+ }
 
   const optionArray = [
     {
@@ -186,6 +184,7 @@ import { useReactToPrint } from "react-to-print";
 
         const response = await DataService.HandelSaveTransaction(ReqData);
         if(response.data.status){
+            handleClose()
             setInvoiceno(response.data?.data?.transaction_id)
             setShowRecepit(true)
         }
@@ -211,7 +210,7 @@ import { useReactToPrint } from "react-to-print";
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="contained" color='primary'  onClick={handleClickOpen}>
         Complete Sale
       </Button>
       <Dialog
@@ -220,9 +219,9 @@ import { useReactToPrint } from "react-to-print";
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         maxWidth="md"
-        // fullWidth ={showRecepit}
+        fullWidth 
       >
-        {!showRecepit &&<><DialogTitle id="alert-dialog-title">
+       <DialogTitle id="alert-dialog-title">
           { "Choose Payment Methods"}
         </DialogTitle>
         <DialogContent>
@@ -273,26 +272,33 @@ import { useReactToPrint } from "react-to-print";
           <Button onClick={HandelSaveTranSaction} variant="contained" color="primary">
             Generate Bill
           </Button>
+          <Button onClick={handleClose} variant="contained">
+            Close
+          </Button>
           <Typography variant="h6">
             Total: ₹{totalAmount?.toFixed(2)}
           </Typography>
           <Typography variant="h6">
            Invoice  Total: ₹{total?.toFixed(2)}
           </Typography>
-        </DialogActions></>}
-        {showRecepit &&<>
-        <DialogContent>
-        <div
-              className="container"
-              style={header.container}
-              ref={componentRef}
-            >
-        <ReceiptModal products={Cartitems}  invoiceNo={invoiceno} optionTick={optionArray} selected={selectedTenders}  />
-            </div>
-        </DialogContent>
-        </>}
+        </DialogActions>
       </Dialog>
 
+      {/* Printe Modal or Dialog Starting  */}
+      <Dialog open={showRecepit}
+        // onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        maxWidth="md">
+       <DialogContent>
+       <div>
+      {/* Content to print */}
+      <ReceiptModal handlecloseReceipt={handlecloseReceipt} products={Cartitems}  invoiceNo={invoiceno} optionTick={optionArray} selected={selectedTenders}  />
+    </div>
+        
+        </DialogContent>
+      
+      </Dialog>
 
     </div>
   )
