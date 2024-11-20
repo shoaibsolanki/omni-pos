@@ -18,7 +18,8 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Alert } from '@mui/material'
 import DataService from '../../services/requestApi'
- const Tendermodal=({total})=> {
+ const Tendermodal=({total,Cartitems})=> {
+    const userData = JSON.parse(localStorage.getItem("User_data"));
      const [selectedTenders, setSelectedTenders] = useState({})
      const [totalAmount, setTotalAmount] = useState(0)
      const Diubalance = total - totalAmount
@@ -150,7 +151,31 @@ import DataService from '../../services/requestApi'
     const Selectedamount = Object.values(selectedTenders).reduce((sum, amount) => sum + amount, 0)
     setTotalAmount(Selectedamount)
   }
-  
+
+  //Handel save transcation for generate recipte 
+
+  const HandelSaveTranSaction = async () => {
+    try {
+        const ReqData = {
+            registerId: userData && userData.registerId,
+            storeId: userData && userData.storeId,
+            saasId: userData && userData.saasId,
+            tenderId: "TENDER1",
+            tender: selectedTenders,
+            cartItems: Cartitems,
+            customerName:"",
+            customerNumber:"",
+            loyalty_id:"",
+          }
+
+        const response = await DataService.HandelSaveTransaction(ReqData);
+        console.log("Generate Sale Invoice", response.data);
+       
+    } catch (error) {
+        console.log("Error: ", error)
+    }
+  }
+
 
 
   return (
@@ -160,7 +185,7 @@ import DataService from '../../services/requestApi'
       </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        // onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         maxWidth="md"
@@ -214,8 +239,8 @@ import DataService from '../../services/requestApi'
           </Box>
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'space-between', px: 3, pb: 3 }}>
-          <Button onClick={calculateTotal} variant="contained" color="primary">
-            Calculate Total
+          <Button onClick={HandelSaveTranSaction} variant="contained" color="primary">
+            Generate Bill
           </Button>
           <Typography variant="h6">
             Total: ₹{totalAmount?.toFixed(2)}
