@@ -48,5 +48,8 @@ class DataService {
   Scanitembyid(storeId,saasId,itemid){
     return http.get(`/search/item-by-itemId/${storeId}/${saasId}/${itemid}`)
   }
+  HandelSaveTransaction(data){
+    return http.post(`/transaction/save-transaction`,data)
+  }
 }
 export default new DataService();

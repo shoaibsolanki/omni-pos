@@ -19,12 +19,7 @@ import DataService from "../../services/requestApi"
 import FlipIcon from '@mui/icons-material/Flip';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
-const products = {
-    '123456': { name: 'T-Shirt', price: 19.99 },
-    '789012': { name: 'Jeans', price: 49.99 },
-    '345678': { name: 'Sneakers', price: 79.99 },
-  }
-
+import Tendermodal from './Tendermodal';
   const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(3),
     marginTop: theme.spacing(3),
@@ -32,25 +27,9 @@ const products = {
 const Scanandbill = () => {
 
   const Cartitems = JSON.parse(localStorage.getItem('my-cart')) || []
-
     const [items, setItems] = useState(Cartitems)
     const [barcode, setBarcode] = useState('')
-    const [currentTime, setCurrentTime] = useState(new Date())
     const { storeId,saasId } = JSON.parse(localStorage.getItem("User_data")) || {}
-    useEffect(() => {
-      const timer = setInterval(() => setCurrentTime(new Date()), 1000)
-      return () => clearInterval(timer)
-    }, [])
-  
-    const handleScan = (e) => {
-      e.preventDefault()
-      if (products[barcode]) {
-        setItems([...items, { ...products[barcode], id: Date.now() }])
-        setBarcode('')
-      } else {
-        alert('Product not found')
-      }
-    }
   
     const removeItem = (id) => {
       //remove item from cart by item_id from cart and update state by updating items array
@@ -81,7 +60,7 @@ const Scanandbill = () => {
         if (existingItem) {
           existingItem.product_qty += 1
         } else {
-          cartItems.push({...response.data.data[0], product_qty: 1 })
+          cartItems.push({...response.data.data[0], product_qty: 1 , productQty: 1 ,new_price:response.data.data[0].price  })
         }
         localStorage.setItem('my-cart', JSON.stringify(cartItems))
         setItems(cartItems)
@@ -95,22 +74,46 @@ const Scanandbill = () => {
 
     //create function for increasing quantity of item in cart and decreasing quantity of item in cart 
     const handleIncreaseQuantity = (id) => {
-      
-      const updatedCartItems = items.map(item => item.item_id === id? {...item, product_qty: item.product_qty + 1 } : item)
-      localStorage.setItem('my-cart', JSON.stringify(updatedCartItems))
-      setItems(updatedCartItems)
+      const updatedCartItems = items.map(item => {
+          if (item.item_id === id) {
+              const newQuantity = item.product_qty + 1; // Calculate new quantity
+              const newPrice = item.price * newQuantity; // Calculate new price based on new quantity
+              return { 
+                  ...item, 
+                  product_qty: newQuantity, 
+                  productQty: newQuantity, 
+                  new_price: newPrice 
+              };
+          }
+          return item; // Return unchanged items
+      });
+  
+      localStorage.setItem('my-cart', JSON.stringify(updatedCartItems));
+      setItems(updatedCartItems);
+  };
+
+  const handleDecreaseQuantity = (id) => {
+    // Find the item and check if its quantity is greater than 1
+    const currentItem = items.find(item => item.item_id === id);
+    if (currentItem && currentItem.product_qty > 1) {
+        const updatedCartItems = items.map(item => {
+            if (item.item_id === id) {
+                const newQuantity = item.product_qty - 1; // Decrease quantity
+                const newPrice = item.price * newQuantity; // Calculate new price
+                return {
+                    ...item,
+                    product_qty: newQuantity,
+                    productQty: newQuantity,
+                    new_price: newPrice,
+                };
+            }
+            return item; // Return unchanged items
+        });
+
+        localStorage.setItem('my-cart', JSON.stringify(updatedCartItems));
+        setItems(updatedCartItems);
     }
-    const handleDecreaseQuantity = (id) => {
-      //if product quantity is greater than 1 then decrease quantity else do nothing
-      if(items.find(item => item.item_id === id).product_qty > 1){
-        const updatedCartItems = items.map(item => item.item_id === id? {...item, product_qty: item.product_qty - 1 } : item)
-        localStorage.setItem('my-cart', JSON.stringify(updatedCartItems))
-        setItems(updatedCartItems)
-      }
-      // const updatedCartItems = items.map(item => item.item_id === id? {...item, product_qty: item.product_qty - 1 } : item)
-      // localStorage.setItem('my-cart', JSON.stringify(updatedCartItems))
-      // setItems(updatedCartItems)
-    }
+};
 
 
   return (
@@ -145,7 +148,7 @@ const Scanandbill = () => {
             </TableHead>
             <TableBody>
               {items.map((item) => (
-                <TableRow key={item.id}>
+                <TableRow key={item.item_id}>
                   <TableCell>{item.item_name}</TableCell>
                   <TableCell align="center">
                   <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -190,9 +193,10 @@ const Scanandbill = () => {
             <Button variant="outlined">
               {'\u2715'} Cancel
             </Button>
-            <Button variant="contained" color="primary">
+            <Tendermodal total={total} Cartitems = {items}/>
+            {/* <Button variant="contained" color="primary">
              Complete Sale
-            </Button>
+            </Button> */}
           </Box>
         </Box>
       </StyledPaper>
