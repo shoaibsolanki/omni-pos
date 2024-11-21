@@ -12,5 +12,5 @@ if (isDev === true) {
   BASE_Url = "https://posprdapi.photonsoftwares.com/prod/api/v1";
   Email_Url = "https://posprdapi.photonsoftwares.com/prod/";
   host = "https://posprdapi.photonsoftwares.com/prod/api/v1/";
-  LOYALTY_BASE_URL = "http://3.111.70.84:8092/prod/v1";
+  LOYALTY_BASE_URL = "https://loyaltyprdapi.photonsoftwares.com/prod/api/v1";
 }

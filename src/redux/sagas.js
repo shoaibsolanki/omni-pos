@@ -411,12 +411,12 @@ function* handleAddItemSearchRequest(e) {
       if (jsonData.data) {
         // ------
 
-        tempSearchArr.map((el) => {
+        jsonData.data.map((el) => {
           el["productQty"] = 1;
           el["sku"] = "SKU";
           // el["department"] = "Dept2";
           el["bill_qty"] = 0;
-          userType === "CUSTOMER" ? (el["name"] = el.item_name) : "";
+          // userType === "CUSTOMER" ? (el["name"] = el.item_name) : "";
           // userType === "CUSTOMER" ? (el["order_qty"] = el.productQty) : "";
           // userType === "CUSTOMER" ? (el["order_price"] = el.price) : "";
 
@@ -499,7 +499,7 @@ function* handleCreateSupplierRequest(e) {
     if (jsonData) {
       if (jsonData && jsonData.data) {
         toast.success(jsonData.message);
-        jsonData.message;
+        // jsonData.message;
         // yield put({
         //   type: "ComponentPropsManagement/handlePartyNameDataResponse",
         //   data: jsonData.data,
@@ -548,7 +548,7 @@ function* handleRecommendedDataRequest(e) {
         // el["department"] = "Dept2";
         el["bill_qty"] = 0;
         el["product_qty"] = el.productQty;
-        userType === "CUSTOMER" ? (el["name"] = el.item_name) : "";
+        // userType === "CUSTOMER" ? (el["name"] = el.item_name) : "";
       });
       // console.log("tempSearchArr", tempSearchArr);
       yield put({
@@ -2110,7 +2110,7 @@ function* handleSalesReportRequest(e) {
     if (jsonData && jsonData.data) {
       yield put({
         type: "ComponentPropsManagement/handleSalesReportResponse",
-        data: arr,
+        data: jsonData.data,
       });
     }
   } else {
@@ -2804,7 +2804,7 @@ function* handleLinkLoyaltyRequest(e) {
     const jsonData = yield response.json();
     console.log("JSONDATA loyalty data", jsonData);
     // 9877678
-    if (jsonData) {
+    if (jsonData.status) {
       yield put({
         type: "ComponentPropsManagement/handleLinkLoyaltyResponse",
         data: jsonData,
@@ -3169,7 +3169,7 @@ function* handleAllDataByCategoryRequest(e) {
         el["sku"] = "SKU";
         // el["department"] = "Dept2";
         el["bill_qty"] = 0;
-        userType === "CUSTOMER" ? (el["name"] = el.item_name) : "";
+        // userType === "CUSTOMER" ? (el["name"] = el.item_name) : "";
         // userType === "CUSTOMER" ? (el["order_qty"] = el.productQty) : "";
         // userType === "CUSTOMER" ? (el["order_price"] = el.price) : "";
 

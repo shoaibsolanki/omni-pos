@@ -10,15 +10,10 @@ import {
   nextPage,
   prevPage,
 } from "./redux/actions-reducers/ComponentProps/ComponentPropsManagement";
-import { useLocation } from "react-router-dom";
 import Product from "./components/Product";
 // import { Pagination } from "reactstrap";
 const renderData = (filterdetails,setSearchValue,setData,setUpdatecart,updatecart) => {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const { page_number, total_count_page } = useSelector(
-    (e) => e.ComponentPropsManagement
-  );
+  
  console.log("this catogary data🤷‍♀️🤷‍♀️🤷‍♀️🤷‍♀️🤷‍♀️",filterdetails)
 
   //this is unUsed Code 

@@ -20,6 +20,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { BASE_Url } from "../../URL";
 import { Label } from "reactstrap";
+import { toast } from "react-toastify";
 
 const Pricing = () => {
   return (

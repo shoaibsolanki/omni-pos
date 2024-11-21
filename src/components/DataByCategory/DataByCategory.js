@@ -629,7 +629,7 @@ const DataByCategory = () => {
 
   const handleWhatsSubmit = (event) => {
     event.preventDefault();
-    success("Invoice Sent To Your WhatsApp!");
+    // success("Invoice Sent To Your WhatsApp!");
     // alert("Form Sumbited!");
     // window.location.reload();
   };
