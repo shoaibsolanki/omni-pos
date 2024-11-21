@@ -29,6 +29,7 @@ import Swal from 'sweetalert2';
 const Scanandbill = () => {
   const navigate = useNavigate()
   const Cartitems = JSON.parse(localStorage.getItem('my-cart')) || []
+  const [isLoading, setIsLoading] = useState(false)
     const [items, setItems] = useState(Cartitems)
     const [barcode, setBarcode] = useState('')
     const { storeId,saasId } = JSON.parse(localStorage.getItem("User_data")) || {}
@@ -52,9 +53,12 @@ const Scanandbill = () => {
     //api hit on scan item 
     const handleScanItem =async (e) => {
       e.preventDefault()
+      setIsLoading(true)
       try {
+        if(!barcode)return
         const response = await DataService.Scanitembyid(storeId,saasId, barcode)
         console.log("Scanned item: ", response.data.data)
+        setIsLoading(false)
         //add item to cart in local storage my-cart if item already exists then update quantity else add new item
         const cartItems = JSON.parse(localStorage.getItem('my-cart')) || []
         const existingItem = cartItems.find(item => item.item_id === response.data.data[0].item_id)
@@ -70,6 +74,7 @@ const Scanandbill = () => {
         
       } catch (error) {
         setBarcode('')
+        setIsLoading(false)
         Swal.fire({
           title: 'Error Scanning Item',
           text: error?.response?.data?.message,
@@ -129,21 +134,31 @@ const Scanandbill = () => {
          <Container maxWidth="lg">
      
       <StyledPaper elevation={3}>
-        <form onSubmit={handleScanItem} style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}>
-          <TextField
-            fullWidth
-            variant="outlined"
-            label="Scan barcode"
-            value={barcode}
-            onChange={(e) => setBarcode(e.target.value)}
-          />
-          <Button 
-            type="submit" 
-            variant="contained" 
-          >
-            <FlipIcon className='mx-2'/> Scan
-          </Button>
-        </form>
+      <form
+  onSubmit={(e) => {
+    if (!isLoading) {
+      handleScanItem(e);
+    }
+  }}
+  style={{ display: 'flex', gap: '16px', marginBottom: '24px' }}
+>
+  <TextField
+    autoFocus
+    fullWidth
+    variant="outlined"
+    label="Scan barcode"
+    value={barcode}
+    onChange={(e) => setBarcode(e.target.value)}
+    // disabled={isLoading} // Disable input during loading
+  />
+  <Button
+    type="submit"
+    variant="contained"
+    disabled={isLoading} // Disable button during loading
+  >
+    <FlipIcon className="mx-2" /> {isLoading ? 'Scanning...' : 'Scan'}
+  </Button>
+</form>
         <TableContainer style={{height:'calc(100vh - 350px)' , overflowY:"auto"}} component={Paper}>
           <Table>
             <TableHead>
