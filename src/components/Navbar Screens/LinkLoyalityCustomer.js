@@ -8,6 +8,7 @@ import { BASE_Url } from "../../URL";
 import { handleLinkLoyaltyRequest } from "../../redux/actions-reducers/ComponentProps/ComponentPropsManagement";
 const LinkLoyalityCustomer = () => {
   const { saasId } = JSON.parse(localStorage.getItem("User_data"));
+  const { scan_bill } = JSON.parse(localStorage.getItem("Store_data"));
   console.log("STORAGE DATA", saasId);
 
   const { link_loyalty_detail } = useSelector(
@@ -179,7 +180,7 @@ const LinkLoyalityCustomer = () => {
             )}
             <div className="mt-3">
               <Link
-                to={"/home"}
+                to={`${scan_bill? "/scanscreen" : "/home"  }`}
                 type="submit"
                 className="btn btn-primary"
                 style={{

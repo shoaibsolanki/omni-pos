@@ -179,7 +179,7 @@ const Home = () => {
     useState(false);
   const [qrData, setQrData] = useState(null);
   const [loyaltyAmount, setLoyaltyAmount] = useState(
-    link_loyalty_detail.balance_amount
+    link_loyalty_detail?.balance_amount
   );
   const [viewOrderModalIsOpen, setViewOrderModalIsOpen] = useState(false);
 

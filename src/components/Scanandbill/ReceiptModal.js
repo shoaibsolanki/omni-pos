@@ -115,7 +115,7 @@ function ReceiptModal({totalDiscount,customer,products,optionTick, payment_mode,
         <>
         <div className="fw-bold mt-5" style={customLineStyle}></div>
         <div className="d-flex justify-content-between fw-bold text-nowrap">
-          {/* <p> Name: {customer?.name}</p> */}
+          <p> Name: {customer?.name}</p>
           <p> Mobile Number: {customer?.mobile_number}</p>
 
         </div>

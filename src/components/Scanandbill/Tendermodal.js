@@ -20,11 +20,21 @@ import { Alert } from '@mui/material'
 import DataService from '../../services/requestApi'
 import ReceiptModal from './ReceiptModal'
 import { useReactToPrint } from "react-to-print";
+import { useDispatch, useSelector } from 'react-redux'
+import { handleAccruvalRequest, handleClearLinkLoyaltyDetail, handleClearSearchCustomerData } from '../../redux/actions-reducers/ComponentProps/ComponentPropsManagement'
+import moment from 'moment'
  const Tendermodal=({total,Cartitems,setItems})=> {
     const userData = JSON.parse(localStorage.getItem("User_data"));
     const [showRecepit, setShowRecepit] = useState(false)
      const [selectedTenders, setSelectedTenders] = useState({})
      const [totalAmount, setTotalAmount] = useState(0)
+     const dispatch = useDispatch();
+     const { link_loyalty_detail } = useSelector(
+      (e) => e.ComponentPropsManagement
+    );
+    const { search_customer_data } = useSelector(
+      (e) => e.ComponentPropsManagement
+    );
      const Diubalance = total - totalAmount
      const [open, setOpen] = useState(false)
      const [invoiceno, setInvoiceno] = useState("")
@@ -50,6 +60,8 @@ import { useReactToPrint } from "react-to-print";
     //clear cart from local storage
     localStorage.removeItem("my-cart")
     setItems([])
+    dispatch(handleClearLinkLoyaltyDetail())
+    dispatch(handleClearSearchCustomerData())
  }
 
   const optionArray = [
@@ -168,6 +180,32 @@ import { useReactToPrint } from "react-to-print";
 
   //Handel save transcation for generate recipte 
 
+  const cartDataAcc = (cartData) => {
+    if (cartData?.length > 0) {
+      let arr = [];
+      cartData.map((item) => {
+        console.log("ITEM", item);
+
+        arr.push({
+          product_name: item.category,
+          product_quantity: item.productQty,
+          product_amount: item.price,
+          product_non_sale_amount: item.discount == 0 ? item.price : "",
+          product_sale_amount:
+            item.discount > 0 ? item.price - item.discount : "",
+          product_discount_amount: Number(
+            item.discount > 0 ? item.discount : 0
+          ),
+          qr_sale_flag: true,
+        });
+      });
+      return arr;
+      // setSendValues(obj)
+    }
+    return [];
+  };
+
+
   const HandelSaveTranSaction = async () => {
     try {
         const ReqData = {
@@ -177,18 +215,50 @@ import { useReactToPrint } from "react-to-print";
             tenderId: "TENDER1",
             tender: selectedTenders,
             cartItems: Cartitems,
-            customerName:"",
-            customerNumber:"",
-            loyalty_id:"",
+            customerName:search_customer_data && search_customer_data?.name,
+            customerNumber: search_customer_data &&search_customer_data?.mobile_number,
+            loyalty_id:link_loyalty_detail && link_loyalty_detail?.loyalty_id,
           }
 
         const response = await DataService.HandelSaveTransaction(ReqData);
         if(response.data.status){
-            handleClose()
-            setInvoiceno(response.data?.data?.transaction_id)
-            setShowRecepit(true)
+          handleClose()
+          setInvoiceno(response.data?.data?.transaction_id)
+          setShowRecepit(true)
+          if(link_loyalty_detail && Object.keys(link_loyalty_detail).length > 0){
+            console.log("Loyaliy check", link_loyalty_detail );
+            console.log("loyalty_id", link_loyalty_detail)
+            const Tenderarray = Object.keys(selectedTenders).map(key => ({
+              tender_name: key,
+              tender_value: selectedTenders[key]
+          }));
+            dispatch(
+              handleAccruvalRequest({
+                link_loyalty_detail,
+                client_id: userData && userData.saasId,
+                source_channel: "POS",
+                register_id: userData && userData.registerId,
+                total_invoice_amount: Number(response.data?.data?.total_amount),
+                store_id: Number(userData && userData.storeId),
+                business_date: moment(new Date()).format("YYYY-MM-DD"),
+                invoice_no:response.data?.data?.transaction_id,
+                source_app: "POS",
+                concept_code: Number(1),
+                source_function: "POST",
+                country: link_loyalty_detail.country?.toUpperCase(),
+                reference_number:response.data?.data?.transaction_id,
+                territory_code: "INR",
+                remarks: "GOOD",
+                product: cartDataAcc(Cartitems),
+                transaction_type: "PURCHASE",
+                program_name: "campaign name",
+                base_currency: link_loyalty_detail.base_currency,
+                tender: Tenderarray,
+              })
+            );
+          }
         }
-        console.log("Generate Sale Invoice", response.data);
+       
 
        
     } catch (error) {
@@ -293,7 +363,7 @@ import { useReactToPrint } from "react-to-print";
        <DialogContent>
        <div>
       {/* Content to print */}
-      <ReceiptModal handlecloseReceipt={handlecloseReceipt} products={Cartitems}  invoiceNo={invoiceno} optionTick={optionArray} selected={selectedTenders}  />
+      <ReceiptModal customer={search_customer_data} handlecloseReceipt={handlecloseReceipt} products={Cartitems}  invoiceNo={invoiceno} optionTick={optionArray} selected={selectedTenders}  />
     </div>
         
         </DialogContent>

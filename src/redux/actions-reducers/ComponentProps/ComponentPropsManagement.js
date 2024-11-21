@@ -512,6 +512,11 @@ export const ComponentPropsManagement = createSlice({
       console.log("PAYLOAD LOYALTY RES", payload);
       state.link_loyalty_detail = payload.data;
     },
+    //Clear link_loyalty_detail state function
+    handleClearLinkLoyaltyDetail: (state, payload) => {
+      state.link_loyalty_detail = null;
+    },
+
 
     // Debit note MIS report
     handleDebitNoteMisListRequest: (state, payload) => { },
@@ -656,6 +661,12 @@ export const ComponentPropsManagement = createSlice({
       console.log("Customer data", payload.payload.e);
       state.search_customer_data = payload.payload.e;
     },
+
+    // Create Function to clear search_customer_data 
+    handleClearSearchCustomerData: (state, payload) => {
+      state.search_customer_data = {};
+    },
+    
 
     handleViewOrderPendingRequest: (state, payload) => { },
     handleViewOrderPendingResponse: (state, payload) => {
@@ -846,8 +857,10 @@ export const {
   handleCreateSupplierRequest,
   handleRedeemPointRequest,
   handleSaveSearchCustomerData,
+  handleClearSearchCustomerData,
   nextPage,
   handleLinkLoyaltyRequest,
+  handleClearLinkLoyaltyDetail,
   handleDeliveryNoteRequest,
   handleDelGetUserRequest,
   handelCustomerDetailforAddressRequest,

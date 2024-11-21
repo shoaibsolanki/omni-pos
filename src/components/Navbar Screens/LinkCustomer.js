@@ -9,6 +9,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { BASE_Url } from "../../URL";
 import AsyncSelect from "react-select/async";
+import { toast } from "react-toastify";
 
 const LinkCustomer = () => {
   const { search_customer_data } = useSelector(
@@ -16,6 +17,7 @@ const LinkCustomer = () => {
   );
 
   const { storeId, saasId } = JSON.parse(localStorage.getItem("User_data"));
+  const { scan_bill } = JSON.parse(localStorage.getItem("Store_data"));
   const dispatch = useDispatch();
   const [userData, setUserdata] = useState({});
   const [searchValue, setSearchValue] = useState("");
@@ -263,7 +265,7 @@ const LinkCustomer = () => {
                   {userMobile && userName ? (
                     <div className="mt-3">
                       <Link
-                      to={'/home'}
+                      to={`${scan_bill?"/scanscreen": "/home"}`}
                         type="submit"
                         className="btn btn-primary"
                         style={{

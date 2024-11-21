@@ -2802,9 +2802,9 @@ function* handleLinkLoyaltyRequest(e) {
       }
     );
     const jsonData = yield response.json();
-    console.log("JSONDATA loyalty data", jsonData);
     // 9877678
-    if (jsonData.status) {
+    if (jsonData) {
+      console.log("JSONDATA loyalty data", jsonData);
       yield put({
         type: "ComponentPropsManagement/handleLinkLoyaltyResponse",
         data: jsonData,
