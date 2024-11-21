@@ -21,6 +21,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import Tendermodal from './Tendermodal';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
   const StyledPaper = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(3),
     marginTop: theme.spacing(3),
@@ -68,6 +69,12 @@ const Scanandbill = () => {
         setBarcode('')
         
       } catch (error) {
+        setBarcode('')
+        Swal.fire({
+          title: 'Error Scanning Item',
+          text: error?.response?.data?.message,
+          icon: 'error',
+        })
         console.log("Error scanning item: ", error)
       }
     }

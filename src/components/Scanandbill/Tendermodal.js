@@ -28,6 +28,7 @@ import moment from 'moment'
     const [showRecepit, setShowRecepit] = useState(false)
      const [selectedTenders, setSelectedTenders] = useState({})
      const [totalAmount, setTotalAmount] = useState(0)
+     const [isLoading, setIsLoading] = useState(false)
      const dispatch = useDispatch();
      const { link_loyalty_detail } = useSelector(
       (e) => e.ComponentPropsManagement
@@ -207,6 +208,7 @@ import moment from 'moment'
 
 
   const HandelSaveTranSaction = async () => {
+    setIsLoading(true)
     try {
         const ReqData = {
             registerId: userData && userData.registerId,
@@ -222,6 +224,8 @@ import moment from 'moment'
 
         const response = await DataService.HandelSaveTransaction(ReqData);
         if(response.data.status){
+
+          setIsLoading(false)
           handleClose()
           setInvoiceno(response.data?.data?.transaction_id)
           setShowRecepit(true)
@@ -257,11 +261,27 @@ import moment from 'moment'
               })
             );
           }
+        }else{
+          setIsLoading(false)
+          setShowAlert({
+            show: true,
+            message: response.data.message,
+            icon:"error"
+          })
+          setTimeout(() => {
+            setShowAlert({
+              show: false,
+              message: "",
+              icon:"" 
+            })
+          }, 2000);
         }
        
 
        
     } catch (error) {
+      setIsLoading(false)
+
         console.log("Error: ", error)
     }
   }
@@ -339,7 +359,7 @@ import moment from 'moment'
           </Box>
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'space-between', px: 3, pb: 3 }}>
-          <Button onClick={HandelSaveTranSaction} variant="contained" color="primary">
+          <Button disabled={isLoading} onClick={HandelSaveTranSaction} variant="contained" color="primary">
             Generate Bill
           </Button>
           <Button onClick={handleClose} variant="contained">
