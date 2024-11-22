@@ -35,7 +35,7 @@ const LinkLoyalityCustomer = () => {
       // setUserMobile(data.data.mobile_number);
       setUsername(link_loyalty_detail.customer_name);
       setUserMobile(link_loyalty_detail.email_id);
-      setLoyltyAmount(link_loyalty_detail.balance_amount);
+      setLoyltyAmount(link_loyalty_detail.converted_cash);
     }
   }, [link_loyalty_detail]);
   // console.log(userName, userMobile);

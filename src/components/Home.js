@@ -65,6 +65,7 @@ import Category from "../components/Category/Category";
 import ViewOrdersCustomer from "./PendingOrders/ViewOrdersCustomer";
 import PaginationComponent from "../PaginationComponent";
 import Swal from "sweetalert2";
+import moment from "moment";
 
 const Home = () => {
   // const loyalty_data = JSON.parse(localStorage.getItem("Loyalty_data"));
@@ -236,7 +237,7 @@ const Home = () => {
             link_loyalty_detail,
             redeem_amount: optionTick.filter((el) => el.value === "loyalty")[0]
               .amount,
-            bussiness_date: "2023-04-24",
+            bussiness_date: moment.format("YYYY-MM-DD"),
             invoice_number: handle_saveTransaction_data.transaction_id + "",
             remarks: "",
           })

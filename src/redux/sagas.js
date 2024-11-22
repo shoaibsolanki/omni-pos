@@ -2560,6 +2560,37 @@ function* handleAccruvalRequest(e) {
           body: JSON.stringify(e.payload),
         }
       );
+      // Here i want call handleRedeemPointRequest function to redeem points.
+      //if payload.tender have tender_name loyalty then call handleRedeemPointRequest function.
+      if(e.payload.tender?.length && e.payload.tender.some(t=>t.tender_name === 'loyalty')){
+        yield put({
+          type: "ComponentPropsManagement/handleRedeemPointRequest",
+          payload: {
+            link_loyalty_detail: {
+              loyalty_id: e.payload.link_loyalty_detail.loyalty_id,
+            },
+            saas_id: saasId,
+            store_id: storeId,
+            redeem_amount: e.payload.tender.find(t=>t.tender_name === 'loyalty').tender_value,
+            bussiness_date: moment(new Date()).format("YYYY-MM-DD"),
+            invoice_number:e.payload.invoice_no,
+            remarks: "",
+          },
+        });
+      }
+      // yield put({
+      //   type: "ComponentPropsManagement/handleRedeemPointRequest",
+      //   payload: {
+      //     link_loyalty_detail: {
+      //       loyalty_id: e.payload.link_loyalty_detail.loyalty_id,
+      //     },
+      //     saas_id: saasId,
+      //     store_id: storeId,
+      //     bussiness_date: moment(new Date()).format("YYYY-MM-DD"),
+      //     invoice_number:e.payload.invoice_no,
+      //     remarks: "",
+      //   },
+      // });
       const jsonData = yield response.json();
     }
     // console.log("JSONDATA ACC>", jsonData);
