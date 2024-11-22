@@ -2548,16 +2548,19 @@ function* handleAccruvalRequest(e) {
   console.log("ACC E", e);
   try {
     console.log("E PAYLOAD ACCURAVAL", e.payload);
+    //here edit payload remove link_loyalty_detail and store in new variable
+    const newPayload = {...e.payload, link_loyalty_detail: e.payload.link_loyalty_detail.loyalty_id };
+    console.log("NEW PAYLOAD ACCURAVAL", newPayload);
     if(e?.payload?.link_loyalty_detail?.loyalty_id){
       const response = yield fetch(
-        `${LOYALTY_BASE_URL}/loyalty/issue/${saasId}/${e.payload.link_loyalty_detail.loyalty_id}`,
+        `${LOYALTY_BASE_URL}/loyalty/issue/${saasId}/${newPayload.link_loyalty_detail}`,
         {
           // const response = yield fetch(`${BASE_Url}/loyalty/customer`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(e.payload),
+          body: JSON.stringify(newPayload),
         }
       );
       // Here i want call handleRedeemPointRequest function to redeem points.

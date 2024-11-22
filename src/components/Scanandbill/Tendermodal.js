@@ -105,9 +105,9 @@ const Tendermodal = ({ total, Cartitems, setItems }) => {
     },
     {
       id: 6,
-      name: "Card",
+      name: "Credit Card",
       icon: <BsCreditCardFill size={25} />,
-      value: "card",
+      value: "Credit Card",
       isActive: true,
     },
     {
@@ -215,24 +215,29 @@ const Tendermodal = ({ total, Cartitems, setItems }) => {
 
   const cartDataAcc = (cartData) => {
     if (cartData?.length > 0) {
-      let arr = [];
-      cartData.map((item) => {
-        console.log("ITEM", item);
-
-        arr.push({
-          product_name: item.category,
-          product_quantity: item.productQty,
-          product_amount: item.price,
-          product_non_sale_amount: item.discount == 0 ? item.price : "",
-          product_sale_amount:
-            item.discount > 0 ? item.price - item.discount : "",
-          product_discount_amount: Number(
-            item.discount > 0 ? item.discount : 0
-          ),
-          qr_sale_flag: true,
-        });
-      });
-      return arr;
+      const Itemdata = cartData
+      const EditedItem = Itemdata.map((item)=>
+      item.discount >0 ?{
+       ...item,
+       "product_name": item.name,
+        "product_quantity": item.productQty ,
+        "product_amount": item.price,
+        "product_non_sale_amount": "",
+        "product_sale_amount": item.newPrice,
+        "product_discount_amount": item.discount,
+       qr_sale_flag:true,
+      }:{
+        ...item,
+        "product_name": item.name,
+        "product_quantity": item.productQty ,
+        "product_amount": item.price,
+        "product_non_sale_amount": item.newPrice,
+        "product_sale_amount": "",
+        "product_discount_amount": item.discount,
+        qr_sale_flag:false,
+      }
+      )
+      return EditedItem
       // setSendValues(obj)
     }
     return [];
@@ -284,30 +289,58 @@ const Tendermodal = ({ total, Cartitems, setItems }) => {
             tender_value: selectedTenders[key],
           }));
           dispatch(
-            handleAccruvalRequest({
-              link_loyalty_detail,
-              client_id: userData && userData.saasId,
-              source_channel: "POS",
-              register_id: userData && userData.registerId,
-              total_invoice_amount:
-                Number(response.data?.data?.total_amount) -
-                Number(selectedTenders?.loyalty),
-              store_id: Number(userData && userData.storeId),
-              business_date: moment(new Date()).format("YYYY-MM-DD"),
-              invoice_no: response.data?.data?.transaction_id,
-              source_app: "POS",
-              concept_code: Number(1),
-              source_function: "POST",
-              country: link_loyalty_detail.country?.toUpperCase(),
-              reference_number: response.data?.data?.transaction_id,
-              territory_code: "INR",
-              remarks: "GOOD",
-              product: cartDataAcc(Cartitems),
-              transaction_type: "PURCHASE",
-              program_name: "campaign name",
-              base_currency: link_loyalty_detail.base_currency,
-              tender: Tenderarray,
-            })
+            handleAccruvalRequest(
+              {
+                  link_loyalty_detail,
+                  "customer_id": null,
+                  "source_channel": "Online",
+                  "cost_centre": "Marketing",
+                  "register_id": "R789",
+                  "total_invoice_amount":  Tenderarray.filter((item) => item.tender_name == "loyalty")?.length > 0? Number(response.data?.data?.total_amount) -
+                  Number(selectedTenders?.loyalty) :  Number(response.data?.data?.total_amount),
+                  "store_id": "S987",
+                  "business_date": moment(new Date()).format("YYYY-MM-DD"),
+                  "invoice_no": response.data?.data?.transaction_id,
+                  "source_app": "WebApp",
+                  "concept_code": "1",
+                  "reference_number": "REF789",
+                  "source_function": "Sales",
+                  "territory_code": "INR",
+                  "transaction_type": "Purchase",
+                  "remarks": "Special notes",
+                  "client_id": link_loyalty_detail && link_loyalty_detail.client_id,
+                  "product": cartDataAcc(Cartitems),
+                  "redeemed_point": 100,
+                  "redeemed_concept": "Discount",
+                  "base_currency": "INR",
+                  "status": "Completed",
+                  "country":  link_loyalty_detail.country?.toUpperCase(),
+                  "tender":Tenderarray
+              
+              
+              // link_loyalty_detail,
+              // client_id: link_loyalty_detail && link_loyalty_detail.client_id,
+              // source_channel: "POS",
+              // register_id: userData && userData.registerId,
+              // total_invoice_amount: Tenderarray.filter((item) => item.tender_name == "loyalty")?.length > 0? Number(response.data?.data?.total_amount) -
+              // Number(selectedTenders?.loyalty) :  Number(response.data?.data?.total_amount),
+              // store_id: Number(userData && userData.storeId),
+              // business_date: moment(new Date()).format("YYYY-MM-DD"),
+              // invoice_no: response.data?.data?.transaction_id,
+              // source_app: "POS",
+              // concept_code: Number(1),
+              // source_function: "POST",
+              // country: link_loyalty_detail.country?.toUpperCase(),
+              // reference_number: response.data?.data?.transaction_id,
+              // territory_code: "INR",
+              // remarks: "GOOD",
+              // product: cartDataAcc(Cartitems),
+              // transaction_type: "PURCHASE",
+              // program_name: "campaign name",
+              // base_currency: link_loyalty_detail.base_currency,
+              // tender: Tenderarray,
+            }
+          )
           );
         }
       } else {
