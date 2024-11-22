@@ -23,6 +23,7 @@ import { useReactToPrint } from "react-to-print";
 import { useDispatch, useSelector } from 'react-redux'
 import { handleAccruvalRequest, handleClearLinkLoyaltyDetail, handleClearSearchCustomerData } from '../../redux/actions-reducers/ComponentProps/ComponentPropsManagement'
 import moment from 'moment'
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
  const Tendermodal=({total,Cartitems,setItems})=> {
     const userData = JSON.parse(localStorage.getItem("User_data"));
     const [showRecepit, setShowRecepit] = useState(false)
@@ -118,14 +119,32 @@ import moment from 'moment'
     {
       id: 8,
       name: "Loyalty",
-      icon: "1000", // Assuming link_loyalty_detail.balance_amount is 1000 for this example
+      icon: <LoyaltyIcon size={25}/>, // Assuming link_loyalty_detail.balance_amount is 1000 for this example
       value: "loyalty",
-      isActive: false,
-      cardValue: 1000, // Assuming link_loyalty_detail.balance_amount is 1000 for this example
+      isActive: link_loyalty_detail && Object.keys(link_loyalty_detail).length > 0,
+      cardValue: link_loyalty_detail?.converted_cash, // Assuming link_loyalty_detail.balance_amount is 1000 for this example
     },
   ]
 
   const handleTenderSelection = (value) => {
+    // if value is "loyalty", check if user has enough balance
+    if (value === "loyalty") {
+      if(link_loyalty_detail?.converted_cash <= 0) {
+        setShowAlert({
+            show: true,
+            message: "Customer has no balance",
+            icon:"error"
+        })
+        setTimeout(() => {
+            setShowAlert({
+                show: false,
+                message: "",
+                icon:"" 
+            })
+        }, 2000);
+        return;
+      }
+    }
     
     setSelectedTenders(prev => {
       const newSelected = { ...prev };
@@ -149,7 +168,8 @@ import moment from 'moment'
             }, 2000);
             return newSelected
     }
-        newSelected[value] = Diubalance; // Add the tender with a default value
+
+        newSelected[value] = value == "loyalty"? link_loyalty_detail?.converted_cash : Diubalance; // Add the tender with a default value
       }
   
       return newSelected;
