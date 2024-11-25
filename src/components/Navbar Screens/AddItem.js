@@ -85,6 +85,7 @@ const AddItem = () => {
   const [selectedOptionTax, setSelectedOptionTax] = useState(null);
   const [selectedHSNTax, setSelectedHSNTax] = useState(null);
   const [itemName, setItemName] = useState("");
+  const [barcode, setBarcode] = useState("");
   const [spacildescription, setSpacildescription] = useState("");
   const [department, setDepartment] = useState("");
   const [itemCode, setItemCode] = useState("");
@@ -192,6 +193,7 @@ const AddItem = () => {
     console.log(itemCategory);
     console.log("categoryArr", categoryArr);
     const body = {
+      barcode:barcode,
       item_name: itemName,
       item_code: Number(itemCode),
       description: spacildescription,
@@ -504,6 +506,18 @@ const AddItem = () => {
                   className="d-flex flex-col"
                   style={{ display: "flex", flexDirection: "column" }}
                 >
+                  <TextField
+                    size="small"
+                    type="text"
+                    className="form-control my-2"
+                    id="customer-name"
+                    value={barcode}
+                    onChange={(e) => setBarcode(e.target.value)}
+                    label="Enter Barcode"
+                    multiline
+                    // required
+                    rows={1}
+                  />
                   <TextField
                     size="small"
                     type="text"
