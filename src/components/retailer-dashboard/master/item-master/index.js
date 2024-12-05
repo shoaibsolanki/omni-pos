@@ -5,7 +5,7 @@ import { BASE_Url, host } from "../../../../URL";
 import { CSVLink } from "react-csv";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import { MdDelete, MdEdit, MdPlaylistAdd } from "react-icons/md";
+import { MdDelete, MdEdit, MdPlaylistAdd, MdPrint } from "react-icons/md";
 import {
   handleItemMasterListRequest,
   handleSearchedDataRequest1,
@@ -15,9 +15,14 @@ import AddItem from "./AddItem";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 import {Image} from 'antd'
+import GetItemBarcodeModal from "./GetItemBarcodeModal";
 const ItemMaster = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [addUpdateItemModalIsOpen, setAddUpdateItemModalIsOpen] =
+  useState(false);
   const { item_master_list, user_data } = useSelector(
     (e) => e.ComponentPropsManagement
   );
@@ -51,11 +56,37 @@ const ItemMaster = () => {
    }
   }, [currentPage, flag,id]);
 
+  const [selectAll, setSelectAll] = useState(false);
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+  const handleSelectionChange = (row) => {
+    const isSelected = selectedRows.includes(row);
+    const newSelectedRows = isSelected
+      ? selectedRows.filter((id) => id !== row)
+      : [...selectedRows, row];
+  
+    setSelectedRows(newSelectedRows);
+  
+    if (!isSelected) {
+      
+      console.log("Selected Row Data:", row);
+    }
+  };
 
   const columns = [
+    {
+      name: "Select Item",
+      center: true,
+      cell: (row) => (
+        <input
+          type="checkbox"
+          checked={selectAll || selectedRows.includes(row)}
+          onChange={() => handleSelectionChange(row)}
+        />
+      ),
+    },
     {
       name: "Item Name",
       center: true,
@@ -135,8 +166,7 @@ const ItemMaster = () => {
       name: "Action",
       center: true,
       selector: (row) => {
-        const [addUpdateItemModalIsOpen, setAddUpdateItemModalIsOpen] =
-          useState(false);
+       
         const handleDelete = async () => {
           const response = await fetch(
             `${host}item/inactive-item/${row.item_id}/${saasId}`,
@@ -194,6 +224,14 @@ const ItemMaster = () => {
                   }}
                 />
               </div>
+              <div style={{cursor:'pointer'}} className="me-2">
+          <MdPrint
+              size={22}
+              color="green"
+              className="mouse-pointer"
+              onClick={() => setModalShow(true)} // Fix the onClick event here
+            />
+          </div>
             </div>
 
             <AddItem
@@ -260,6 +298,7 @@ const ItemMaster = () => {
         // onChangeRowsPerPage={10}
         onChangePage={handlePageChange}
       />
+      <GetItemBarcodeModal  item={selectedRows}  show={modalShow} onHide={() => setModalShow(false)} />
     </>
   );
 };
